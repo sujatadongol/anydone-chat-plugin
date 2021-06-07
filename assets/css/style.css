@@ -1,0 +1,183 @@
+html,
+body {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    overflow-x: hidden;
+    background-color: #ffffff;
+    color: #333333;
+    line-height: 1.5;
+    font-weight: normal;
+}
+
+a {
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+}
+
+/*navbar css*/
+.comparrot-navbar .comparrot-brand {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.comparrot-navbar .comparrot-collapse .menu-nav .menu-item a {
+    color: rgba(0, 0, 0, .5);
+    margin-right: 15px;
+}
+
+.comparrot-navbar .comparrot-collapse .menu-nav .menu-item a:active,
+.comparrot-navbar .comparrot-collapse .menu-nav .menu-item a:hover,
+.comparrot-navbar .comparrot-collapse .menu-nav .menu-item a:focus {
+    color: #8267bd !important;
+    font-weight: 500;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none !important;
+}
+
+/*navbar css*/
+
+/*content css*/
+
+/*left-content*/
+.setting-title {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+nav a.nav-link {
+    color: rgba(0, 0, 0, .5);
+    padding-left: 0;
+}
+
+nav a.nav-link:hover,
+nav a.nav-link:active {
+    color: #8267bd !important;
+    font-weight: 500;
+    padding-left: 0;
+}
+
+.delete-account {
+    border-top: 1px solid #bebebe;
+    color: rgba(0, 0, 0, .5);
+    padding: 20px 0;
+    width: 120px;
+}
+
+/*left-content*/
+
+/*right content*/
+.general-title {
+    font-weight: 600;
+    font-size: 22px;
+}
+
+.general-info {
+    max-width: 390px;
+    font-size: 12px;
+    color: #666;
+}
+
+.image-wrapper {
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+    /*width: 100px;*/
+    /*height: 100px;*/
+}
+
+.image {
+    width: 140px;
+    height: 130px;
+    border-radius: 3px;
+}
+
+.updateBtn {
+    width: 140px;
+    text-align: center;
+    font-size: 12px;
+    padding: 10px;
+    color: #8267bd !important;
+}
+
+.inputBtn {
+    text-align: center;
+    font-size: 10px;
+    padding: 10px;
+    color: #8267bd !important;
+    background: none;
+    border: none;
+}
+
+.input-group {
+    border: none;
+    background: #eff1f3;
+    height: 32px;
+}
+
+.input-field1 {
+    border: none;
+    background: #eff1f3;
+    height: 32px;
+}
+
+.input-field {
+    background: #eff1f3;
+    border: none;
+    height: 32px;
+}
+
+.general-content-wrapper {
+    border-bottom: 1px solid #bebebe;
+}
+
+.input-group {
+    width: 300px
+}
+
+.bottom-section-title {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-check-input {
+    height: 17px;
+    width: 37px
+}
+
+.form-check-input:checked {
+    background-color: #408bd3;
+    border-color: #408bd3;
+}
+
+.form-check-label.switch-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.category-btn{
+    width:100%;
+    background: #eff1f3;
+    color: #333;
+    height: 34px;
+    border:none;
+    margin-bottom: 10px;
+}
+.category-btn:active,
+.category-btn:hover,
+.category-btn:focus
+{
+    width:100%;
+    background: #408bd3;
+    color: #fff;
+    height: 34px;
+    border:none;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+/*right content*/
+/*content css*/

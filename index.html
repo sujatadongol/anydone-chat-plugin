@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat Plugin Template</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css"
+          integrity="sha384-DhY6onE6f3zzKbjUPRc2hOzGAdEf4/Dz+WJwBvEYL/lkkIsI3ihufq9hk9K4lVoK" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&amp;display=swap"
+          rel="stylesheet">
+
+    <!--    Custom css-->
+    <link rel="stylesheet" href="assets/css/normalise.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="body-wrapper">
+    <!--navbar secton-->
+<!--    <nav class="navbar comparrot-navbar navbar-expand-lg navbar-light">-->
+<!--        <div class="container">-->
+<!--            <a class="navbar-brand comparrot-brand" href="#">Comparrot</a>-->
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"-->
+<!--                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+<!--            <div class="collapse navbar-collapse comparrot-collapse" id="navbarTogglerDemo01">-->
+<!--                <ul class="navbar-nav menu-nav ml-auto mb-2 mb-lg-0">-->
+<!--                    <li class="nav-item menu-item">-->
+<!--                        <a class="nav-link active" aria-current="page" href="#">SETTINGS</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item menu-item">-->
+<!--                        <a class="nav-link" href="#">ABOUT</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item menu-item">-->
+<!--                        <a class="nav-link" href="#">BLOG</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item menu-item">-->
+<!--                        <a class="nav-link" href="#">SIGN OUT</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </nav>-->
+    <!--    navbar section-->
+
+    <!--    content section-->
+<!--    <div class="content-wrapper container">-->
+<!--        <div class="row my-4">-->
+<!--            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-5 col-xs-12 d-flex align-items-center">-->
+<!--                <div>-->
+<!--                    <div class="setting-title ">Settings</div>-->
+<!--                    <nav class="nav flex-column my-5">-->
+<!--                        <a class="nav-link active" aria-current="page" href="#">General Profile</a>-->
+<!--                        <a class="nav-link" href="#">Presentation</a>-->
+<!--                        <a class="nav-link" href="#">Wish List</a>-->
+<!--                        <a class="nav-link" href="#">FAQ</a>-->
+<!--                        <a class="nav-link" href="#">Contact Us</a>-->
+<!--                    </nav>-->
+<!--                    <div class="delete-account">-->
+<!--                        Delete Account-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-7 col-xs-12">-->
+<!--                <div class="general-title">General Profile</div>-->
+<!--                <div class="general-info py-4">General profile allows you to change your profile picture and adjust-->
+<!--                    your account and profile information.-->
+<!--                </div>-->
+<!--                <div class="general-content-wrapper pb-5">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-xs-12">-->
+<!--                            <div class="image-wrapper">-->
+<!--                                <img src="assets/media/image/photo.jpeg" class="image">-->
+<!--                            </div>-->
+<!--                            <div class="updateBtn">UPDATE</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-xs-12">-->
+<!--                            <div class="input-group mt-1">-->
+<!--                                <input type="text" class="form-control input-field1"-->
+<!--                                       aria-label="Dollar amount (with dot and two decimal places)">-->
+<!--                            </div>-->
+<!--                            <div class="input-group my-3">-->
+<!--                                <input type="text" class="form-control input-field"-->
+<!--                                       aria-label="Dollar amount (with dot and two decimal places)">-->
+<!--                                <span class="input-group-text inputBtn">UPDATE</span>-->
+<!--                            </div>-->
+<!--                            <div class="input-group">-->
+<!--                                <input type="text" class="form-control input-field"-->
+<!--                                       aria-label="Dollar amount (with dot and two decimal places)">-->
+<!--                                <span class="input-group-text inputBtn">UPDATE</span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="bottom-section my-4">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-3">-->
+<!--                            <div class="bottom-section-title ">Alerts</div>-->
+<!--                            <div class="general-info py-3">General email alerts, we promise we wont spam you!-->
+<!--                            </div>-->
+<!--                            <div class="form-check form-switch">-->
+<!--                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>-->
+<!--                                <label class="form-check-label switch-label" for="flexSwitchCheckChecked">Email alerts-->
+<!--                                    for hot deals-->
+<!--                                    based on your search history</label>-->
+<!--                            </div>-->
+<!--                            <div class="form-check form-switch py-2">-->
+<!--                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked2" checked>-->
+<!--                                <label class="form-check-label switch-label" for="flexSwitchCheckChecked">Email alerts-->
+<!--                                    for price drops for your wishlist products</label>-->
+<!--                            </div>-->
+<!--                            <div class="form-check form-switch ">-->
+<!--                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked3" checked>-->
+<!--                                <label class="form-check-label switch-label" for="flexSwitchCheckChecked">Program-->
+<!--                                    updates and important announcements</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">-->
+<!--                            <div class="bottom-section-title ">Categories Of Interest</div>-->
+<!--                            <div class="general-info py-3">If we find some great deals in categories you like we will-->
+<!--                                update you on the latest or greatest.-->
+<!--                            </div>-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-sm-12">-->
+<!--                                    <button class="category-btn">SPORTS</button>-->
+
+<!--                                </div>-->
+<!--                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-sm-12">-->
+
+<!--                                    <button class="category-btn">TECHNOLOGY</button>-->
+<!--                                </div>-->
+<!--                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-sm-12">-->
+
+<!--                                    <button class="category-btn">FOOD</button>-->
+<!--                                </div>-->
+<!--                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-sm-12">-->
+
+<!--                                    <button class="category-btn">TELEVISION</button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+    <!--    content section-->
+</div>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"
+        integrity="sha384-BOsAfwzjNJHrJ8cZidOg56tcQWfp6y72vEJ8xQ9w6Quywb24iOsW913URv1IS4GD"
+        crossorigin="anonymous"></script>
+<script src="https://storage.googleapis.com/treeleaf/chat-dev.js"></script>
+
+<script>
+
+    const apiKey = "education_api_key";
+    const apiSecret = "idub0oI0AFMg";
+    init_anydone_chat(apiKey, apiSecret);
+
+</script>
+
+</body>
+</html>
