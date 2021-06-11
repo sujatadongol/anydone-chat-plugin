@@ -89,7 +89,7 @@ main {
 }
 
 .bot-list {
-  width: calc(100% - 150px);
+  width: calc(100% - 280px);
   height: 400px;
   padding: 20px;
   display: flex;
@@ -100,8 +100,8 @@ main {
 }
 
 .bot-item {
-  width: 400px;
-  height: 200px;
+  width: 350px;
+  height: 180px;
   padding: 10px;
   padding-bottom: 10px;
   border-radius: 5px;
@@ -136,24 +136,29 @@ main {
   margin-bottom: 5px;
 }
 
+.button-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .delete-button {
-  background: none;
-  position: relative;
-  margin-left: 92%;
-  z-index: 200;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  color: red;
+  width: 40%;
+  height: 35px;
+  color: white;
+  border: 1px solid #ff0f0f;
+  background-color: #5a5a5a;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .initiate-button {
-  width: 100%;
+  width: 45%;
   height: 35px;
   color: white;
-  border: none;
-  background-color: #376af5;
+  border: 1px solid #376af5;
+  background-color: #5a5a5a;
   cursor: pointer;
   margin-top: 10px;
 }

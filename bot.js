@@ -21,9 +21,14 @@ const createStoredBotList = () => {
     const apiKeyValue = bot.apiKey;
     const apiSecretValue = bot.apiSecret;
     const environment = bot.environment;
+    let isActive;
 
-    const currentBotInfo = getLocalStorageItem("currentBot");
-    const isActive = currentBotInfo.apiKey === apiKeyValue;
+    if (getLocalStorageItem("currentBot") !== null) {
+      const currentBotInfo = getLocalStorageItem("currentBot");
+      isActive = currentBotInfo.apiSecret === apiSecretValue;
+    } else {
+      isActive = false;
+    }
 
     const botItem = createBot(
       botNameValue,
@@ -49,17 +54,7 @@ const createBot = (
 
   isActive && botItem.classList.add("active");
 
-  const deleteButton = document.createElement("button"); //  Delete Button
-  deleteButton.classList.add("delete-button");
-  deleteButton.innerText = "x";
-  deleteButton.addEventListener("click", () => {
-    deleteBotItem(apiKeyValue, botItem);
-    console.log("delete initiated");
-  });
-  botItem.append(deleteButton);
-
-  if (isActive) {
-    botItem.innerHTML += `
+  botItem.innerHTML += `
   <div class="bot-item-text">
     <p class="bot-name">Bot: ${botNameValue}</p>
     <ul>
@@ -67,24 +62,23 @@ const createBot = (
       <li><p>ApiSecret = ${apiSecretValue}</p></li>
       <li><p>Environment = ${environment}</p></li>
       <li>
-        <span>Status = </span><span class="active-status">Active</span>
+        <span>Status = </span><span class="${
+          isActive ? "active" : "inactive"
+        }-status">${isActive ? "Active" : "Inactive"}</span>
       </li>
     </ul>
 </div>`;
-  } else {
-    botItem.innerHTML += `
-    <div class="bot-item-text">
-      <p class="bot-name">Bot: ${botNameValue}</p>
-      <ul>
-        <li><p>ApiKey = ${apiKeyValue}</p></li>
-        <li><p>ApiSecret = ${apiSecretValue}</p></li>
-        <li><p>Environment = ${environment}</p></li>
-        <li>
-          <span>Status = </span><span class="inactive-status">Inactive</span>
-        </li>
-      </ul>
-  </div>`;
-  }
+
+  const buttonWrapper = document.createElement("div");
+  buttonWrapper.classList.add("button-wrapper");
+
+  const deleteButton = document.createElement("button"); //  Initate Button
+  deleteButton.classList.add("delete-button");
+  deleteButton.innerText = "Delete";
+  deleteButton.addEventListener("click", () => {
+    deleteBotItem(apiSecretValue, botItem);
+  });
+  buttonWrapper.append(deleteButton);
 
   const initiateButton = document.createElement("button"); //  Initate Button
   initiateButton.classList.add("initiate-button");
@@ -92,7 +86,9 @@ const createBot = (
   initiateButton.addEventListener("click", () => {
     initiateChatBot(botNameValue, apiKeyValue, apiSecretValue);
   });
-  botItem.append(initiateButton);
+  buttonWrapper.append(initiateButton);
+
+  botItem.append(buttonWrapper);
 
   return botItem;
 };
@@ -151,41 +147,63 @@ const initiateChatBot = (botName, apiKey, apiSecret) => {
   console.log("chat bot initialized");
 
   const currentBotInfo = getLocalStorageItem("currentBot");
-  if (currentBotInfo.apiKey === apiKey) {
-    //  if the initiated chatbot is the same as the currentBot saved in localStorage then do not remove localstorage data
-    removeCurrentIframe();
-    init_anydone_chat(apiKey, apiSecret);
-    window.location.reload();
+  if (currentBotInfo !== null) {
+    if (currentBotInfo.apiKey === apiKey) {
+      //  if the initiated chatbot is the same as the currentBot saved in localStorage then do not remove localstorage data
+      const currentIframe = document.getElementById("anydone-chat-id");
+      if (currentIframe !== null) {
+        removeCurrentIframe();
+      }
+      init_anydone_chat(apiKey, apiSecret);
+      window.location.reload();
+    } else {
+      removeCurrentIframe();
+      removeBotKeyDataFromLocalStorage();
+      saveCurrentBotData(botName, apiKey, apiSecret);
+
+      init_anydone_chat(apiKey, apiSecret);
+      window.location.reload();
+    }
   } else {
     removeCurrentIframe();
-    const keysToRemove = [
-      "customerData",
-      "mappingId",
-      "anydoneSession",
-      "anydoneApiKeyData",
-    ];
+    saveCurrentBotData(botName, apiKey, apiSecret);
+    removeBotKeyDataFromLocalStorage();
 
-    for (key of keysToRemove) {
-      localStorage.removeItem(key);
-    }
-    const botInfo = {
-      botName: botName,
-      apiKey: apiKey,
-      apiSecret: apiSecret,
-    };
-    localStorage.setItem("currentBot", JSON.stringify(botInfo));
     init_anydone_chat(apiKey, apiSecret);
     window.location.reload();
   }
 };
 
-const deleteBotItem = (apiKey, botItem) => {
+const saveCurrentBotData = (botName, apiKey, apiSecret) => {
+  const botInfo = {
+    botName: botName,
+    apiKey: apiKey,
+    apiSecret: apiSecret,
+  };
+  localStorage.setItem("currentBot", JSON.stringify(botInfo));
+};
+
+const removeBotKeyDataFromLocalStorage = () => {
+  const keysToRemove = [
+    "customerData",
+    "mappingId",
+    "anydoneSession",
+    "anydoneApiKeyData",
+  ];
+
+  for (key of keysToRemove) {
+    localStorage.removeItem(key);
+  }
+};
+
+const deleteBotItem = (apiSecret, botItem) => {
   console.log("delete bot action initiated");
   const savedBotInfoList = JSON.parse(localStorage.getItem("botInfo-List"));
-  console.log(savedBotInfoList);
+  // console.log(savedBotInfoList);
   const filteredBotInfoList = savedBotInfoList.filter(
-    (info) => info.apiKey !== apiKey
+    (info) => info.apiSecret !== apiSecret
   );
+  console.log(filteredBotInfoList);
   localStorage.setItem("botInfo-List", JSON.stringify(filteredBotInfoList));
   botItem.remove();
 };
@@ -217,18 +235,20 @@ const saveInfoToLocalStorage = (botName, apiKey, apiSecret, environment) => {
 const removeCurrentIframe = () => {
   console.log("removing previous iframe");
   const currentIframe = document.getElementById("anydone-chat-id");
-  currentIframe.remove();
+  if (currentIframe !== null) {
+    currentIframe.remove();
+  }
 };
 
 const toggleHeaderSwitch = () => {
   if (headerSwitch.checked) {
     console.log("header switch checked");
-    post("Switch-Environment", "Production");
     setLocalStorageItem("environment", "Production");
+    post("Switch-Environment", "Production");
   } else {
     console.log("header switch unchecked");
-    post("Switch-Environment", "Development");
     setLocalStorageItem("environment", "Development");
+    post("Switch-Environment", "Development");
   }
 };
 
@@ -268,4 +288,28 @@ const setOnlineStatus = (online) => {
     onlineStatus.innerText = "Offline";
     onlineStatusImage.setAttribute("src", "./assets/offline.svg");
   }
+};
+
+const addInitialBotList = () => {
+  const initialBotInfoList = [
+    {
+      apiKey: "dev_chat_bot_test",
+      apiSecret: "EHZHc83AbELe",
+      botName: "Nepal Police Bot",
+      environment: "Production",
+    },
+    {
+      apiKey: "education_api_key",
+      apiSecret: "idub0oI0AFMg",
+      botName: "Education Bot",
+      environment: "Development",
+    },
+    {
+      apiKey: "_new_testing",
+      apiSecret: "rgmwHZR95pzj",
+      botName: "Kshitij Dev TestBot",
+      environment: "Development",
+    },
+  ];
+  setLocalStorageItem("botInfo-List", initialBotInfoList);
 };

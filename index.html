@@ -52,7 +52,6 @@
       <!-- <button type="button" class="modalButton">Open callModal</button> -->
       <div class="bot-list">
         <!-- <div class="bot-item">
-          <button class="delete-button">x</button>
           <div class="bot-item-text">
             <p class="bot-name">Bot: Kshitij Testbot</p>
             <ul>
@@ -64,15 +63,21 @@
               </li>
             </ul>
           </div>
-
-          <button class="initiate-button" type="button">Initiate</button>
+          <div class="button-wrapper">
+            <button class="delete-button" type="button">Delete</button>
+            <button class="initiate-button" type="button">Initiate</button>
+          </div>
         </div> -->
       </div>
     </main>
     <footer>
       <div class="online-status-wrapper">
         <p class="online-status-text">Online</p>
-        <img class="online-status-image" src="./assets/online.svg" alt="status">
+        <img
+          class="online-status-image"
+          src="./assets/online.svg"
+          alt="status"
+        />
       </div>
     </footer>
   </body>
@@ -81,13 +86,20 @@
   <script>
     if (localStorage.getItem("botInfo-List") !== null) {
       createStoredBotList();
+      if (getLocalStorageItem("botInfo-List").length < 1) {
+        addInitialBotList();
+        createStoredBotList();
+      }
+    } else {
+      addInitialBotList();
+      createStoredBotList();
     }
 
     if (getLocalStorageItem("environment") !== null) {
       const env = getLocalStorageItem("environment");
       headerSwitch.checked = env === "Production" ? true : false;
     } else {
-      setLocalStorageItem("envrionment", "Development");
+      setLocalStorageItem("environment", "Development");
       headerSwitch.checked = false;
     }
 
