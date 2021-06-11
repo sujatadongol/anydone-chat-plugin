@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap"
+      rel="stylesheet"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>chat plugin</h1>
+      <div class="switch-wrapper">
+        <p>Dev</p>
+        <label class="switch">
+          <input type="checkbox" class="header-switch" />
+          <span class="slider"></span>
+        </label>
+        <p>Prod</p>
+      </div>
+    </header>
+    <main>
+      <div class="bot-cred-input">
+        <div class="input-div">
+          <label>Bot Name</label>
+          <input required type="text" class="bot-name" />
+        </div>
+        <div class="input-div">
+          <label for="apiKey">API Key</label>
+          <input required type="text" class="api-key" />
+        </div>
+        <div class="input-div">
+          <label for="apiKey">API Secret</label>
+          <input re type="text" class="api-secret" /><br />
+        </div>
+        <div class="input-div">
+          <label for="environment">Environment</label>
+          <input required type="text" class="environment" /><br />
+        </div>
+      </div>
+      <div class="add-bot-div">
+        <button class="add-bot-button" type="button" onclick="addBot()">
+          Add
+        </button>
+      </div>
+
+      <!-- <button type="button" class="modalButton">Open callModal</button> -->
+      <div class="bot-list">
+        <!-- <div class="bot-item">
+          <button class="delete-button">x</button>
+          <div class="bot-item-text">
+            <p class="bot-name">Bot: Kshitij Testbot</p>
+            <ul>
+              <li><p>ApiKey = "fzGOopneue"</p></li>
+              <li><p>ApiSecret = "IWA4MVxXOWvk"</p></li>
+              <li><p>Environment = Development</p></li>
+              <li>
+                <span>Status = </span><span class="active-status">Active</span>
+              </li>
+            </ul>
+          </div>
+
+          <button class="initiate-button" type="button">Initiate</button>
+        </div> -->
+      </div>
+    </main>
+    <footer>
+      <div class="online-status-wrapper">
+        <p class="online-status-text">Online</p>
+        <img class="online-status-image" src="./assets/online.svg" alt="status">
+      </div>
+    </footer>
+  </body>
+  <script src="bot.js"></script>
+  <script src="chat.js"></script>
+  <script>
+    if (localStorage.getItem("botInfo-List") !== null) {
+      createStoredBotList();
+    }
+
+    if (getLocalStorageItem("environment") !== null) {
+      const env = getLocalStorageItem("environment");
+      headerSwitch.checked = env === "Production" ? true : false;
+    } else {
+      setLocalStorageItem("envrionment", "Development");
+      headerSwitch.checked = false;
+    }
+
+    if (localStorage.getItem("currentBot") !== null) {
+      const currentBotInfo = JSON.parse(localStorage.getItem("currentBot"));
+      const apiKeyValue = currentBotInfo.apiKey;
+      const apiSecretValue = currentBotInfo.apiSecret;
+      init_anydone_chat(apiKeyValue, apiSecretValue);
+    }
+
+    //  Kshitij testbot
+    // const apiKey = "fzGOopneue";
+    // const apiSecret = "IWA4MVxXOWvk";
+    //  newsService testbot
+    // const apiKey = "4def2805bed04575a3d8a3f50c70b395";
+    // const apiSecret = "IYs3LiSgOZkO";
+    //  nepal Police bot
+    // const apiKey = "dev_chat_bot_test";
+    // const apiKey = "6d7e7aac60804b9fbfa386db2f41a25b";
+    // const apiSecret = "EHZHc83AbELe";
+    // dev test
+    // const apiKey = '_new_testing';
+    // const apiSecret = 'rgmwHZR95pzj';
+    // const apiKeyValue = "education_api_key";
+    // const apiSecretValue = "idub0oI0AFMg";
+    // init_anydone_chat(apiKeyValue, apiSecretValue);
+  </script>
+</html>
