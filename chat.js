@@ -1,7 +1,7 @@
 function init_anydone_chat(apiKey, apiSecret) {
   
   // const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
-  const chatPluginSrc = "http://192.168.56.1:3000";     // for dev
+  const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
   // const chatPluginSrc = "http://192.168.56.1:3000";   // local
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;

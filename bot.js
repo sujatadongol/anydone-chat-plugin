@@ -100,9 +100,9 @@ const addBot = () => {
   const apiSecretValue = apiSecret.value;
   const environmentValue = environment.value;
   if (
-    botNameValue &&
-    apiKeyValue &&
-    apiSecretValue &&
+    botNameValue ||
+    apiKeyValue ||
+    apiSecretValue ||
     environmentValue === ""
   ) {
     console.log("empty input fields");
