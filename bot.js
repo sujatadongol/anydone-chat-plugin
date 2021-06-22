@@ -6,12 +6,15 @@ const environment = document.querySelector(".environment");
 const headerSwitch = document.querySelector(".header-switch");
 const onlineStatus = document.querySelector(".online-status-text");
 const onlineStatusImage = document.querySelector(".online-status-image");
-const chatBotPluginSrc = "http://192.168.56.1:3000";
+// const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+const chatBotPluginSrc = 'http://35.233.213.62:3000/'; // For Dev
 
 headerSwitch.addEventListener("change", () => {
   toggleHeaderSwitch();
 });
-
+/**
+ *  Creates bot list from botInfo stored in localStorage
+ */
 const createStoredBotList = () => {
   const storedBotList = JSON.parse(localStorage.getItem("botInfo-List"));
 
@@ -41,7 +44,15 @@ const createStoredBotList = () => {
     botList.append(botItem);
   });
 };
-
+/**
+ * Creates a botItem from the given parameters
+ *
+ * @param  {string} botNameValue botname value taken from the input
+ * @param  {string} apiKeyValue apiKey value taken from the input
+ * @param  {string} apiSecretValue apiSecret value taken from the input
+ * @param  {string} environment the environment the bot runs in
+ * @param  {boolean} isActive check to see if the current bot is active
+ */
 const createBot = (
   botNameValue,
   apiKeyValue,
@@ -92,26 +103,24 @@ const createBot = (
 
   return botItem;
 };
-
+/**
+ * Adds a botItem to the list after it is created
+ */
 const addBot = () => {
   console.log("addbot called");
   const botNameValue = botName.value;
   const apiKeyValue = apiKey.value;
   const apiSecretValue = apiSecret.value;
   const environmentValue = environment.value;
-  if (
-    botNameValue ||
-    apiKeyValue ||
-    apiSecretValue ||
-    environmentValue === ""
-  ) {
-    console.log("empty input fields");
-    alert("input fields cannot be empty");
-  } else {
+  if (botNameValue && apiKeyValue && apiSecretValue && environmentValue) {
     createNewBotItem();
+  } else {
+    alert("input fields cannot be empty");
   }
 };
-
+/**
+ * Create a botItem from the data taken from the input
+ */
 const createNewBotItem = () => {
   console.log("createbotItem called");
   const botNameValue = botName.value;
@@ -142,7 +151,13 @@ const createNewBotItem = () => {
   apiSecret.value = "";
   environment.value = "";
 };
-
+/**
+ * Initiate the bot
+ *
+ * @param  {string} botName
+ * @param  {string} apiKey
+ * @param  {string} apiSecret
+ */
 const initiateChatBot = (botName, apiKey, apiSecret) => {
   console.log("chat bot initialized");
 
@@ -173,7 +188,13 @@ const initiateChatBot = (botName, apiKey, apiSecret) => {
     window.location.reload();
   }
 };
-
+/**
+ * Save the botInfo to localStorage
+ *
+ * @param  {string} botName
+ * @param  {string} apiKey
+ * @param  {string} apiSecret
+ */
 const saveCurrentBotData = (botName, apiKey, apiSecret) => {
   const botInfo = {
     botName: botName,
@@ -182,7 +203,9 @@ const saveCurrentBotData = (botName, apiKey, apiSecret) => {
   };
   localStorage.setItem("currentBot", JSON.stringify(botInfo));
 };
-
+/**
+ * Remove specific keys from localStorage
+ */
 const removeBotKeyDataFromLocalStorage = () => {
   const keysToRemove = [
     "customerData",
@@ -195,7 +218,12 @@ const removeBotKeyDataFromLocalStorage = () => {
     localStorage.removeItem(key);
   }
 };
-
+/**
+ * Delete a bot item from the list
+ *
+ * @param  {string} apiSecret
+ * @param  {Node} botItem
+ */
 const deleteBotItem = (apiSecret, botItem) => {
   console.log("delete bot action initiated");
   const savedBotInfoList = JSON.parse(localStorage.getItem("botInfo-List"));
@@ -207,7 +235,14 @@ const deleteBotItem = (apiSecret, botItem) => {
   localStorage.setItem("botInfo-List", JSON.stringify(filteredBotInfoList));
   botItem.remove();
 };
-
+/**
+ *  Save botInfo to the localstorage
+ *
+ * @param  {string} botName
+ * @param  {string} apiKey
+ * @param  {string} apiSecret
+ * @param  {string} environment
+ */
 const saveInfoToLocalStorage = (botName, apiKey, apiSecret, environment) => {
   if (localStorage.getItem("botInfo-List") !== null) {
     const savedBotInfoList = JSON.parse(localStorage.getItem("botInfo-List"));
@@ -231,7 +266,9 @@ const saveInfoToLocalStorage = (botName, apiKey, apiSecret, environment) => {
     localStorage.setItem("botInfo-List", JSON.stringify(botInfoList));
   }
 };
-
+/**
+ * Removes the current iFrame while a new one is being initiated
+ */
 const removeCurrentIframe = () => {
   console.log("removing previous iframe");
   const currentIframe = document.getElementById("anydone-chat-id");
@@ -239,7 +276,10 @@ const removeCurrentIframe = () => {
     currentIframe.remove();
   }
 };
-
+/**
+ * Toggle between prod and dev switch and save data to LocalStorage
+ * also switches the env info of the plugin using postmessage
+ */
 const toggleHeaderSwitch = () => {
   if (headerSwitch.checked) {
     console.log("header switch checked");
@@ -251,7 +291,12 @@ const toggleHeaderSwitch = () => {
     post("Switch-Environment", "Development");
   }
 };
-
+/**
+ * Creates a data object from the parameters given and postsMessage to iFrame source
+ *
+ * @param  {string} action
+ * @param  {any} value
+ */
 const post = (action, value) => {
   let data = {
     type: action,
@@ -264,7 +309,9 @@ const post = (action, value) => {
   const currentIframe = document.getElementById("anydone-chat-id");
   currentIframe.contentWindow.postMessage(message, chatBotPluginSrc);
 };
-
+/**
+ * Check to see if the network is active
+ */
 const checkOnlineStatus = async () => {
   try {
     const online = await fetch("https://jsonplaceholder.typicode.com/todos/1");
@@ -273,13 +320,21 @@ const checkOnlineStatus = async () => {
     return false;
   }
 };
-
-setInterval(async () => {
-  const result = await checkOnlineStatus();
-  setOnlineStatus(result);
-  // console.log(result);
-}, 15000);
-
+/**
+ * Checks the internet status every 15secs
+ *
+ * @param  {async} async
+ */
+// setInterval(async () => {
+//   const result = await checkOnlineStatus();
+//   setOnlineStatus(result);
+//   // console.log(result);
+// }, 15000);
+/**
+ * Changes the status icon and text for the network status given
+ *
+ * @param  {boolean} online
+ */
 const setOnlineStatus = (online) => {
   if (online) {
     onlineStatus.innerText = "Online";
@@ -289,7 +344,9 @@ const setOnlineStatus = (online) => {
     onlineStatusImage.setAttribute("src", "./assets/offline.svg");
   }
 };
-
+/**
+ * Adds botItems to the botList from the given list
+ */
 const addInitialBotList = () => {
   const initialBotInfoList = [
     {

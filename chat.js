@@ -2,7 +2,7 @@ function init_anydone_chat(apiKey, apiSecret) {
   
   // const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
   const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
-  // const chatPluginSrc = "http://192.168.56.1:3000";   // local
+  // const chatPluginSrc = "http://192.168.56.1:3000";   // ! For local development only, should be changed while pushing
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
@@ -67,7 +67,7 @@ function init_anydone_chat(apiKey, apiSecret) {
       iframeTag.contentWindow.postMessage(message, chatPluginSrc);
     };
 
-    if (getLocalStorageItem("environment") !== null) {  // For DEV
+    if (getLocalStorageItem("environment") !== null) {  // ! For Dev environment only, must be commented while pushing to prod
       const env = getLocalStorageItem("environment");
       console.log("setting initial env to production");
       env === "Production"
@@ -110,11 +110,11 @@ function init_anydone_chat(apiKey, apiSecret) {
     post("API_CONFIG", apiKeyData);
   };
   iframeTag.style.visibility = "hidden";
-  iframeTag.style.bottom = "60px";
+  iframeTag.style.bottom = "70px";
   iframeTag.style.position = "fixed";
   iframeTag.style.zIndex = "9999";
   iframeTag.style.border = "none";
-  iframeTag.style.right = "20px";
+  iframeTag.style.right = "33px";
 
   if (mobileSize.matches) {
     iframeTag.style.width = "100%";
@@ -140,8 +140,8 @@ function init_anydone_chat(apiKey, apiSecret) {
   anydoneIcon.style.cursor = "pointer";
   anydoneIcon.style.position = "fixed";
   anydoneIcon.style.zIndex = "9999";
-  anydoneIcon.style.right = "10px";
-  anydoneIcon.style.bottom = "10px";
+  anydoneIcon.style.right = "30px";
+  anydoneIcon.style.bottom = "30px";
 
   const anydoneCloseIcon = document.createElement("img");
   anydoneCloseIcon.id = "anydone-close-id";
@@ -154,15 +154,15 @@ function init_anydone_chat(apiKey, apiSecret) {
   anydoneCloseIcon.style.cursor = "pointer";
   anydoneCloseIcon.style.position = "fixed";
   anydoneCloseIcon.style.zIndex = "9999";
-  anydoneCloseIcon.style.right = "10px";
-  anydoneCloseIcon.style.bottom = "10px";
+  anydoneCloseIcon.style.right = "30px";
+  anydoneCloseIcon.style.bottom = "30px";
 
   anydoneIcon.addEventListener("click", () => {
     anydoneIcon.style.visibility = "hidden";
     anydoneCloseIcon.style.visibility = "visible";
     anydoneCloseIcon.style.animation = "rotation 2s linear";
     iframeTag.style.visibility = "visible";
-    iframeTag.style.bottom = "70px";
+    iframeTag.style.bottom = "85px";
     iframeTag.style.transition = "bottom 0.3s linear";
     iframeTag.style.zIndex = "9999";
   });
