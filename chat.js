@@ -47,6 +47,13 @@ function init_anydone_chat(apiKey, apiSecret) {
           setLocalStorageItem("customerData", message);
           break;
         }
+        case "PAGE_LOCATION_REQUEST": {
+          const page = {
+            pageLocation: window.location.href,
+          }
+          console.log(window.location.href);
+          post("PAGE_LOCATION_RESPONSE", page);
+        }
         default:
           break;
       }
