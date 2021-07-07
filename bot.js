@@ -6,8 +6,8 @@ const environment = document.querySelector(".environment");
 const headerSwitch = document.querySelector(".header-switch");
 const onlineStatus = document.querySelector(".online-status-text");
 const onlineStatusImage = document.querySelector(".online-status-image");
-const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
-// const chatBotPluginSrc = 'http://35.233.213.62:3000/'; // For Dev
+// const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+const chatBotPluginSrc = 'http://35.233.213.62:3000/'; // For Dev
 
 headerSwitch.addEventListener("change", () => {
   toggleHeaderSwitch();
