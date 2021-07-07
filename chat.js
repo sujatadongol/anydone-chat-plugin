@@ -1,7 +1,7 @@
 function init_anydone_chat(apiKey, apiSecret) {
   // const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
-  // const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
-  const chatPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+  const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
+  // const chatPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
@@ -149,7 +149,7 @@ function init_anydone_chat(apiKey, apiSecret) {
   anydoneIcon.id = "anydone-logo-id";
   anydoneIcon.src =
     "https://storage.googleapis.com/anydone_files/d72d9a1a61ba4f0e8bbb92f70616af91.png";
-  anydoneIcon.style.visibility = "hidden";
+  anydoneIcon.style.visibility = "visible";
   anydoneIcon.style.width = "50px";
   anydoneIcon.style.height = "50px";
   anydoneIcon.style.borderRadius = "50%";
