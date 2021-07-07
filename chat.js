@@ -1,7 +1,7 @@
 function init_anydone_chat(apiKey, apiSecret) {
-  // const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
+  const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
   // const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
-  const chatPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+  // const chatPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
@@ -83,17 +83,17 @@ function init_anydone_chat(apiKey, apiSecret) {
       iframeTag.contentWindow.postMessage(message, chatPluginSrc);
     };
 
-    if (getLocalStorageItem("environment") !== null) {
-      // ! For Dev environment only, must be commented while pushing to prod
-      const env = getLocalStorageItem("environment");
-      console.log("setting initial env to production");
-      env === "Production"
-        ? post("Switch-Environment", "Production")
-        : post("Switch-Environment", "Development");
-    } else {
-      post("Switch-Environment", "Development");
-      console.log("setting initial env to development");
-    }
+    // if (getLocalStorageItem("environment") !== null) {
+    //   // ! For Dev environment only, must be commented while pushing to prod
+    //   const env = getLocalStorageItem("environment");
+    //   console.log("setting initial env to production");
+    //   env === "Production"
+    //     ? post("Switch-Environment", "Production")
+    //     : post("Switch-Environment", "Development");
+    // } else {
+    //   post("Switch-Environment", "Development");
+    //   console.log("setting initial env to development");
+    // }
 
     const cookieData = getCookie("mappingId");
     const localData = getLocalStorageItem("mappingId");
