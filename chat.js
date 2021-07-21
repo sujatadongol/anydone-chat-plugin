@@ -1,8 +1,6 @@
 function init_anydone_chat(apiKey, apiSecret) {
-  
-  // const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
-  const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
-  // const chatPluginSrc = "http://192.168.56.1:3000";   // ! For local development only, should be changed while pushing
+  const chatPluginSrc = "https://chatplugin.anydone.com/";
+
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
@@ -50,7 +48,7 @@ function init_anydone_chat(apiKey, apiSecret) {
         case "PAGE_LOCATION_REQUEST": {
           const page = {
             pageLocation: window.location.href,
-          }
+          };
           console.log(window.location.href);
           post("PAGE_LOCATION_RESPONSE", page);
         }
@@ -74,17 +72,6 @@ function init_anydone_chat(apiKey, apiSecret) {
       iframeTag.contentWindow.postMessage(message, chatPluginSrc);
     };
 
-    if (getLocalStorageItem("environment") !== null) {  // ! For Dev environment only, must be commented while pushing to prod
-      const env = getLocalStorageItem("environment");
-      console.log("setting initial env to production");
-      env === "Production"
-        ? post("Switch-Environment", "Production")
-        : post("Switch-Environment", "Development");
-    } else {
-      post("Switch-Environment", "Development");
-      console.log("setting initial env to development");
-    }
-    
     const cookieData = getCookie("mappingId");
     const localData = getLocalStorageItem("mappingId");
     if (cookieData !== localData) {
@@ -107,8 +94,7 @@ function init_anydone_chat(apiKey, apiSecret) {
       apiKey,
       apiSecret,
       hostName: window.location.origin,
-      // domain: window.location.hostname,
-      domain: "www.google.com",
+      domain: window.location.hostname,
       customerData,
       mappingId,
       keyData,
@@ -183,53 +169,6 @@ function init_anydone_chat(apiKey, apiSecret) {
 
   bodyTag.appendChild(anydoneIcon);
   bodyTag.appendChild(anydoneCloseIcon);
-
-  // let modalWrapperStyles = {
-  //   display: "none" /* Hidden by default */,
-  //   position: "fixed" /* Stay in place */,
-  //   "z-index": 1 /* Sit on top */,
-  //   "padding-top": "100px" /* Location of the box */,
-  //   left: 0,
-  //   top: 0,
-  //   width: "100%" /* Full width */,
-  //   height: "100%" /* Full height */,
-  //   overflow: "auto" /* Enable scroll if needed */,
-  //   "background-color": "rgb(0,0,0)" /* Fallback color */,
-  //   "background-color": "rgba(0,0,0,0.4)" /* Black w/ opacity */,
-  // };
-
-  // const callModal = document.createElement("div");
-  // Object.assign(callModal.style, modalWrapperStyles);
-  // bodyTag.appendChild(callModal);
-
-  // let modalContentStyles = {
-  //   "background-color": "#fefefe",
-  //   margin: "auto",
-  //   padding: "20px",
-  //   border: "1px solid #888",
-  //   width: "80%",
-  // };
-
-  // const modalContent = document.createElement("div");
-  // Object.assign(modalContent.style, modalContentStyles);
-  // modalContent.innerHTML = "<h1>This is the call Modal</h1>";
-  // callModal.appendChild(modalContent);
-
-  // const openModalButton = document.querySelector(".modalButton");
-  // openModalButton.onClick = () => {
-  //   callModal.style.display = "block";
-  //   console.log("button clicked");
-  // };
-  // openModalButton.addEventListener("click", () => {
-  //   callModal.style.display = "block";
-  // });
-
-  // callModal.addEventListener("click", (event) => {
-  //     console.log(event.target)
-  //   if (event.target === callModal) {
-  //     callModal.style.display = "none";
-  //   }
-  // });
 }
 
 const setLocalStorageItem = (key, data) => {
