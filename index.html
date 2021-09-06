@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" type="image/jpg" href="/assets/chat.ico"/>
+    <link rel="shortcut icon" type="image/jpg" href="/assets/favicon.ico" />
     <title>Chat-Plugin Dev_Test</title>
   </head>
   <body>
@@ -28,23 +28,55 @@
     <main>
       <div class="bot-cred-input">
         <div class="input-div">
-          <label>Bot Name</label>
-          <input required type="text" class="bot-name" />
+          <img
+            src="./assets/robot-fill.svg"
+            alt="bot"
+            width="22px"
+            height="22px"
+          />
+          <input required type="text" class="bot-name" placeholder="Bot Name" />
         </div>
         <div class="input-div">
-          <label for="apiKey">API Key</label>
-          <input required type="text" class="api-key" />
+          <img
+            src="./assets/key-fill.svg"
+            alt="bot"
+            width="22px"
+            height="22px"
+          />
+          <input required type="text" class="api-key" placeholder="Api Key" />
         </div>
         <div class="input-div">
-          <label for="apiKey">API Secret</label>
-          <input re type="text" class="api-secret" /><br />
+          <img
+            src="./assets/shield-keyhole-fill.svg"
+            alt="bot"
+            width="22px"
+            height="22px"
+          />
+          <input re type="text" class="api-secret" placeholder="Api Secret" />
         </div>
         <div class="input-div">
-          <label for="environment">Environment</label>
-          <input required type="text" class="environment" /><br />
+          <img
+            src="./assets/sound-module-line.svg"
+            alt="bot"
+            width="22px"
+            height="22px"
+          />
+          <input
+            required
+            type="text"
+            class="environment"
+            placeholder="Environment"
+          />
         </div>
-      </div>
-      <div class="add-bot-div">
+        <div class="input-div">
+          <img
+            src="./assets/global-fill.svg"
+            alt="bot"
+            width="22px"
+            height="22px"
+          />
+          <input required type="text" class="domain" placeholder="Domain" />
+        </div>
         <button class="add-bot-button" type="button" onclick="addBot()">
           Add
         </button>
@@ -52,21 +84,27 @@
 
       <!-- <button type="button" class="modalButton">Open callModal</button> -->
       <div class="bot-list">
-        <!-- <div class="bot-item">
-          <div class="bot-item-text">
-            <p class="bot-name">Bot: Kshitij Testbot</p>
-            <ul>
-              <li><p>ApiKey = "fzGOopneue"</p></li>
-              <li><p>ApiSecret = "IWA4MVxXOWvk"</p></li>
-              <li><p>Environment = Development</p></li>
-              <li>
-                <span>Status = </span><span class="active-status">Active</span>
-              </li>
-            </ul>
+        <!-- <div class="bot-item active">
+          <div class="card-side chatBot-card-front-side">
+            <div class="bot-item-text">
+              <p class="bot-name">Bot: Kshitij Testbot</p>
+              <ul>
+                <li><p>ApiKey = "fzGOopneue"</p></li>
+                <li><p>ApiSecret = "IWA4MVxXOWvk"</p></li>
+                <li><p>Environment = Development</p></li>
+                <li><p>Domain = www.google.com</p></li>
+                <li>
+                  <span>Status = </span
+                  ><span class="active-status">Active</span>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div class="button-wrapper">
-            <button class="delete-button" type="button">Delete</button>
-            <button class="initiate-button" type="button">Initiate</button>
+          <div class="card-side chatBot-card-back-side">
+            <div class="button-wrapper">
+              <button class="delete-button" type="button">Delete</button>
+              <button class="initiate-button" type="button">Initiate</button>
+            </div>
           </div>
         </div> -->
       </div>
@@ -108,7 +146,8 @@
       const currentBotInfo = JSON.parse(localStorage.getItem("currentBot"));
       const apiKeyValue = currentBotInfo.apiKey;
       const apiSecretValue = currentBotInfo.apiSecret;
-      init_anydone_chat(apiKeyValue, apiSecretValue);
+      const devDomain = currentBotInfo.domain;
+      init_anydone_chat(apiKeyValue, apiSecretValue, devDomain);
     }
 
     //  Kshitij testbot

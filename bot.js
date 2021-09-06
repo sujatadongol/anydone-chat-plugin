@@ -3,11 +3,12 @@ const botName = document.querySelector(".bot-name");
 const apiKey = document.querySelector(".api-key");
 const apiSecret = document.querySelector(".api-secret");
 const environment = document.querySelector(".environment");
+const domain = document.querySelector(".domain");
 const headerSwitch = document.querySelector(".header-switch");
 const onlineStatus = document.querySelector(".online-status-text");
 const onlineStatusImage = document.querySelector(".online-status-image");
-const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
-// const chatBotPluginSrc = 'http://35.233.213.62:3000/'; // For Dev
+// const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+const chatBotPluginSrc = "http://35.233.213.62:3000/"; // For Dev
 
 headerSwitch.addEventListener("change", () => {
   toggleHeaderSwitch();
@@ -24,6 +25,7 @@ const createStoredBotList = () => {
     const apiKeyValue = bot.apiKey;
     const apiSecretValue = bot.apiSecret;
     const environment = bot.environment;
+    const domain = bot.domain;
     let isActive;
 
     if (getLocalStorageItem("currentBot") !== null) {
@@ -38,6 +40,7 @@ const createStoredBotList = () => {
       apiKeyValue,
       apiSecretValue,
       environment,
+      domain,
       isActive
     );
 
@@ -58,6 +61,7 @@ const createBot = (
   apiKeyValue,
   apiSecretValue,
   environment,
+  domain,
   isActive
 ) => {
   const botItem = document.createElement("div"); //  Bot Item
@@ -66,19 +70,27 @@ const createBot = (
   isActive && botItem.classList.add("active");
 
   botItem.innerHTML += `
+  <div class="card-side chatBot-card-front-side">
   <div class="bot-item-text">
-    <p class="bot-name">Bot: ${botNameValue}</p>
-    <ul>
-      <li><p>ApiKey = ${apiKeyValue}</p></li>
-      <li><p>ApiSecret = ${apiSecretValue}</p></li>
-      <li><p>Environment = ${environment}</p></li>
-      <li>
-        <span>Status = </span><span class="${
-          isActive ? "active" : "inactive"
-        }-status">${isActive ? "Active" : "Inactive"}</span>
-      </li>
-    </ul>
-</div>`;
+      <p class="bot-name">Bot: ${botNameValue}</p>
+      <ul>
+        <li><p>ApiKey = ${apiKeyValue}</p></li>
+        <li><p>ApiSecret = ${apiSecretValue}</p></li>
+        <li><p>Environment = ${environment}</p></li>
+        <li><p>Domain = ${domain}</p></li>
+        <li>
+          <span>Status = </span><span class="${
+            isActive ? "active" : "inactive"
+          }-status">${isActive ? "Active" : "Inactive"}</span>
+        </li>
+      </ul>
+  </div>
+  </div>
+ `;
+
+  const chatBot_backSide = document.createElement("div");
+  chatBot_backSide.classList.add("card-side");
+  chatBot_backSide.classList.add("chatBot-card-back-side");
 
   const buttonWrapper = document.createElement("div");
   buttonWrapper.classList.add("button-wrapper");
@@ -95,11 +107,12 @@ const createBot = (
   initiateButton.classList.add("initiate-button");
   initiateButton.innerText = "Initiate";
   initiateButton.addEventListener("click", () => {
-    initiateChatBot(botNameValue, apiKeyValue, apiSecretValue);
+    initiateChatBot(botNameValue, apiKeyValue, apiSecretValue, domain);
   });
   buttonWrapper.append(initiateButton);
+  chatBot_backSide.append(buttonWrapper);
 
-  botItem.append(buttonWrapper);
+  botItem.append(chatBot_backSide);
 
   return botItem;
 };
@@ -112,7 +125,14 @@ const addBot = () => {
   const apiKeyValue = apiKey.value;
   const apiSecretValue = apiSecret.value;
   const environmentValue = environment.value;
-  if (botNameValue && apiKeyValue && apiSecretValue && environmentValue) {
+  const domainValue = domain.value;
+  if (
+    botNameValue &&
+    apiKeyValue &&
+    apiSecretValue &&
+    environmentValue &&
+    domainValue
+  ) {
     createNewBotItem();
   } else {
     alert("input fields cannot be empty");
@@ -127,12 +147,14 @@ const createNewBotItem = () => {
   const apiKeyValue = apiKey.value;
   const apiSecretValue = apiSecret.value;
   const environmentValue = environment.value;
+  const domainValue = domain.value;
 
   saveInfoToLocalStorage(
     botNameValue,
     apiKeyValue,
     apiSecretValue,
-    environmentValue
+    environmentValue,
+    domainValue
   );
 
   const botItem = createBot(
@@ -140,6 +162,7 @@ const createNewBotItem = () => {
     apiKeyValue,
     apiSecretValue,
     environmentValue,
+    domainValue,
     false
   );
 
@@ -150,6 +173,7 @@ const createNewBotItem = () => {
   botName.value = "";
   apiSecret.value = "";
   environment.value = "";
+  domain.value = "";
 };
 /**
  * Initiate the bot
@@ -158,7 +182,7 @@ const createNewBotItem = () => {
  * @param  {string} apiKey
  * @param  {string} apiSecret
  */
-const initiateChatBot = (botName, apiKey, apiSecret) => {
+const initiateChatBot = (botName, apiKey, apiSecret, domain) => {
   console.log("chat bot initialized");
 
   const currentBotInfo = getLocalStorageItem("currentBot");
@@ -169,22 +193,22 @@ const initiateChatBot = (botName, apiKey, apiSecret) => {
       if (currentIframe !== null) {
         removeCurrentIframe();
       }
-      init_anydone_chat(apiKey, apiSecret);
+      init_anydone_chat(apiKey, apiSecret, domain);
       window.location.reload();
     } else {
       removeCurrentIframe();
       removeBotKeyDataFromLocalStorage();
-      saveCurrentBotData(botName, apiKey, apiSecret);
+      saveCurrentBotData(botName, apiKey, apiSecret, domain);
 
-      init_anydone_chat(apiKey, apiSecret);
+      init_anydone_chat(apiKey, apiSecret, domain);
       window.location.reload();
     }
   } else {
     removeCurrentIframe();
-    saveCurrentBotData(botName, apiKey, apiSecret);
+    saveCurrentBotData(botName, apiKey, apiSecret, domain);
     removeBotKeyDataFromLocalStorage();
 
-    init_anydone_chat(apiKey, apiSecret);
+    init_anydone_chat(apiKey, apiSecret, domain);
     window.location.reload();
   }
 };
@@ -195,11 +219,12 @@ const initiateChatBot = (botName, apiKey, apiSecret) => {
  * @param  {string} apiKey
  * @param  {string} apiSecret
  */
-const saveCurrentBotData = (botName, apiKey, apiSecret) => {
+const saveCurrentBotData = (botName, apiKey, apiSecret, domain) => {
   const botInfo = {
     botName: botName,
     apiKey: apiKey,
     apiSecret: apiSecret,
+    domain: domain,
   };
   localStorage.setItem("currentBot", JSON.stringify(botInfo));
 };
@@ -243,7 +268,13 @@ const deleteBotItem = (apiSecret, botItem) => {
  * @param  {string} apiSecret
  * @param  {string} environment
  */
-const saveInfoToLocalStorage = (botName, apiKey, apiSecret, environment) => {
+const saveInfoToLocalStorage = (
+  botName,
+  apiKey,
+  apiSecret,
+  environment,
+  domain
+) => {
   if (localStorage.getItem("botInfo-List") !== null) {
     const savedBotInfoList = JSON.parse(localStorage.getItem("botInfo-List"));
     const newBotCred = {
@@ -251,6 +282,7 @@ const saveInfoToLocalStorage = (botName, apiKey, apiSecret, environment) => {
       apiKey: apiKey,
       apiSecret: apiSecret,
       environment: environment,
+      domain: domain,
     };
     savedBotInfoList.push(newBotCred);
     localStorage.setItem("botInfo-List", JSON.stringify(savedBotInfoList));
@@ -261,6 +293,7 @@ const saveInfoToLocalStorage = (botName, apiKey, apiSecret, environment) => {
       apiKey: apiKey,
       apiSecret: apiSecret,
       environment: environment,
+      domain: domain,
     };
     botInfoList.push(botCred);
     localStorage.setItem("botInfo-List", JSON.stringify(botInfoList));
@@ -349,23 +382,40 @@ const setOnlineStatus = (online) => {
  */
 const addInitialBotList = () => {
   const initialBotInfoList = [
+    // {
+    //   apiKey: "dev_chat_bot_test",
+    //   apiSecret: "EHZHc83AbELe",
+    //   botName: "Nepal Police Bot",
+    //   environment: "Production",
+    //   domain: "http://nptest.nepalpolice.gov.np/",
+    // },
     {
-      apiKey: "dev_chat_bot_test",
-      apiSecret: "EHZHc83AbELe",
-      botName: "Nepal Police Bot",
+      apiKey: "anydone_bot",
+      apiSecret: "wwohzI76SZdX",
+      botName: "Treeleaf Bot",
       environment: "Production",
+      domain: "http://treeleaf.ai",
     },
     {
-      apiKey: "education_api_key",
-      apiSecret: "idub0oI0AFMg",
-      botName: "Education Bot",
-      environment: "Development",
+      apiKey: "anydone_chat_plugin",
+      apiSecret: "v08GQikEfLXY",
+      botName: "Anydone Bot",
+      environment: "Production",
+      domain: "https://anydone.com",
     },
     {
       apiKey: "_new_testing",
       apiSecret: "rgmwHZR95pzj",
       botName: "Kshitij Dev TestBot",
       environment: "Development",
+      domain: "http://google.com",
+    },
+    {
+      apiKey: "education_api_key",
+      apiSecret: "idub0oI0AFMg",
+      botName: "Education Bot",
+      environment: "Development",
+      domain: "http://google.com",
     },
   ];
   setLocalStorageItem("botInfo-List", initialBotInfoList);

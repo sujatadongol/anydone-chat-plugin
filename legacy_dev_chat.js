@@ -1,7 +1,7 @@
-function init_anydone_chat(apiKey, apiSecret, devDomain) {
+function init_anydone_chat(apiKey, apiSecret) {
   // const chatPluginSrc = 'https://chatplugin.anydone.com/';   //  for prod
-  const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
-  // const chatPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+  // const chatPluginSrc = 'http://35.233.213.62:3000/';     // for dev
+  const chatPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
@@ -21,55 +21,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   iframeTag.id = "anydone-chat-id";
   iframeTag.src = chatPluginSrc;
 
-  //floating icon to toggle chat screen
-  const anydoneIcon = document.createElement("img");
-  const anydoneCloseIcon = document.createElement("img");
-  const mobileCloseIcon = document.createElement("img");
-
-  var mobileSize = window.matchMedia("(max-width: 480px)");
-
-  const resizeForMobile = (mobileSize) => {
-    if (mobileSize.matches) {
-      anydoneCloseIcon.style.visibility = "hidden";
-      iframeTag.style.bottom = "0px";
-      iframeTag.style.position = "fixed";
-      iframeTag.style.zIndex = "9999";
-      iframeTag.style.border = "none";
-      iframeTag.style.right = "0px";
-      iframeTag.style.width = "100vw";
-      iframeTag.style.height = "100vh";
-      iframeTag.crossOrigin = "";
-      iframeTag.style.borderRadius = "0px";
-      iframeTag.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.25)";
-      mobileCloseIcon.style.visibility = "visible";
-      anydoneIcon.style.right = "20px";
-      anydoneIcon.style.bottom = "71px";
-      // console.log("this is mobile sized");
-    } else {
-      // console.log("above mobile size");
-      iframeTag.style.bottom = "85px";
-      iframeTag.style.position = "fixed";
-      iframeTag.style.zIndex = "9999";
-      iframeTag.style.border = "none";
-      iframeTag.style.right = "33px";
-      iframeTag.style.width = "350px";
-      iframeTag.style.height = "528px";
-      iframeTag.style.borderRadius = "10px";
-      iframeTag.crossOrigin = "";
-      iframeTag.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.25)";
-      anydoneIcon.style.right = "30px";
-      anydoneIcon.style.bottom = "30px";
-      if (iframeTag.style.visibility === "visible") {
-        anydoneCloseIcon.style.visibility = "visible";
-        anydoneCloseIcon.style.zIndex = "8888";
-      }
-    }
-  };
-
-  mobileSize.addListener(resizeForMobile);
-
   iframeTag.onload = () => {
-    resizeForMobile(mobileSize);
     const onMessageReceivedFromChatPlugin = (event) => {
       if (typeof event.data !== "string") {
         return false;
@@ -80,6 +32,11 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
         case "SDK_INTEGRATION_IS_ENABLED":
           {
             showChatPlugin();
+          }
+          break;
+        case "SDK_INTEGRATION_IS_DISABLED":
+          {
+            hideChatPlugin();
           }
           break;
         case "API_KEY_DATA": {
@@ -126,20 +83,6 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
       iframeTag.contentWindow.postMessage(message, chatPluginSrc);
     };
 
-    const page = {
-      pageLocation: window.location.href,
-    };
-    console.log(window.location.href);
-    post("PAGE_LOCATION_RESPONSE", page);
-
-    window.addEventListener("onhashchange", () => {
-      const page = {
-        pageLocation: window.location.href,
-      };
-      console.log(window.location.href);
-      post("PAGE_LOCATION_RESPONSE", page);
-    });
-
     if (getLocalStorageItem("environment") !== null) {
       // ! For Dev environment only, must be commented while pushing to prod
       const env = getLocalStorageItem("environment");
@@ -151,10 +94,6 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
       post("Switch-Environment", "Development");
       console.log("setting initial env to development");
     }
-
-    const showChatPlugin = () => {
-      anydoneIcon.style.visibility = "visible";
-    };
 
     const cookieData = getCookie("mappingId");
     const localData = getLocalStorageItem("mappingId");
@@ -174,7 +113,6 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     const mappingId = getLocalStorageItem("mappingId") || false;
     const keyData = getLocalStorageItem("anydoneApiKeyData") || false;
     const anydoneSession = getLocalStorageItem("anydoneSession") || false;
-    const dummyDomain = devDomain || false;
     const apiKeyData = {
       apiKey,
       apiSecret,
@@ -184,18 +122,21 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
       mappingId,
       keyData,
       anydoneSession,
-      devDomain: dummyDomain,
     };
     post("API_CONFIG", apiKeyData);
   };
-
   iframeTag.style.visibility = "hidden";
   iframeTag.style.bottom = "70px";
   iframeTag.style.position = "fixed";
   iframeTag.style.zIndex = "9999";
   iframeTag.style.border = "none";
   iframeTag.style.right = "33px";
-  iframeTag.style.width = "350px";
+
+  if (mobileSize.matches) {
+    iframeTag.style.width = "100%";
+    console.log("this is mobile sized");
+  } else iframeTag.style.width = "350px";
+
   iframeTag.style.height = "528px";
   iframeTag.style.borderRadius = "10px";
   iframeTag.crossOrigin = "";
@@ -203,6 +144,8 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
 
   bodyTag.appendChild(iframeTag);
 
+  //floating icon to toggle chat screen
+  const anydoneIcon = document.createElement("img");
   anydoneIcon.id = "anydone-logo-id";
   anydoneIcon.src =
     "https://storage.googleapis.com/anydone_files/d72d9a1a61ba4f0e8bbb92f70616af91.png";
@@ -212,10 +155,11 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   anydoneIcon.style.borderRadius = "50%";
   anydoneIcon.style.cursor = "pointer";
   anydoneIcon.style.position = "fixed";
-  anydoneIcon.style.zIndex = "8888";
+  anydoneIcon.style.zIndex = "9999";
   anydoneIcon.style.right = "30px";
   anydoneIcon.style.bottom = "30px";
 
+  const anydoneCloseIcon = document.createElement("img");
   anydoneCloseIcon.id = "anydone-close-id";
   anydoneCloseIcon.src =
     "https://storage.googleapis.com/anydone_files/17cf71ff8a614609a2631540717b05d8.png";
@@ -225,63 +169,18 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   anydoneCloseIcon.style.borderRadius = "50%";
   anydoneCloseIcon.style.cursor = "pointer";
   anydoneCloseIcon.style.position = "fixed";
-  anydoneCloseIcon.style.zIndex = "8888";
+  anydoneCloseIcon.style.zIndex = "9999";
   anydoneCloseIcon.style.right = "30px";
   anydoneCloseIcon.style.bottom = "30px";
 
-  mobileCloseIcon.id = "mobile-close-id";
-  mobileCloseIcon.src = "close_mark.svg";
-  mobileCloseIcon.style.visibility = "hidden";
-  mobileCloseIcon.style.width = "16px";
-  mobileCloseIcon.style.height = "16px";
-  mobileCloseIcon.style.cursor = "pointer";
-  mobileCloseIcon.style.position = "fixed";
-  mobileCloseIcon.style.zIndex = "999999";
-  mobileCloseIcon.style.top = "17px";
-  mobileCloseIcon.style.right = "20px";
-
   anydoneIcon.addEventListener("click", () => {
     anydoneIcon.style.visibility = "hidden";
+    anydoneCloseIcon.style.visibility = "visible";
     anydoneCloseIcon.style.animation = "rotation 2s linear";
     iframeTag.style.visibility = "visible";
-    if (mobileSize.matches) {
-      anydoneCloseIcon.style.visibility = "hidden";
-      mobileCloseIcon.style.visibility = "visible";
-      iframeTag.style.bottom = "0px";
-    } else {
-      anydoneCloseIcon.style.visibility = "visible";
-      anydoneCloseIcon.style.zIndex = "8888";
-      iframeTag.style.bottom = "85px";
-    }
-    // iframeTag.style.transition = "bottom 0.3s linear";
+    iframeTag.style.bottom = "85px";
+    iframeTag.style.transition = "bottom 0.3s linear";
     iframeTag.style.zIndex = "9999";
-    iframeTag.animate(
-      [
-        // keyframes
-        {
-          transform: "scale(0, 0)",
-          transformOrigin: "bottom right",
-          opacity: 0,
-          // transitionTimingFunction: "ease-in",
-        },
-        {
-          transform: "scale(1.03, 1.03)",
-          transformOrigin: "bottom right",
-          // opacity: 1,
-        },
-        {
-          transform: "scale(1, 1)",
-          transformOrigin: "bottom right",
-          opacity: 1,
-          // transitionTimingFunction: "ease-in",
-        },
-      ],
-      {
-        // timing options
-        duration: 200,
-        iterations: 1,
-      }
-    );
   });
   anydoneCloseIcon.addEventListener("click", () => {
     anydoneIcon.style.visibility = "visible";
@@ -290,19 +189,19 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     iframeTag.style.zIndex = "-1";
     iframeTag.style.bottom = "30px";
   });
-  mobileCloseIcon.addEventListener("click", () => {
-    mobileCloseIcon.style.visibility = "hidden";
-    anydoneIcon.style.zIndex = "8888";
-    anydoneCloseIcon.style.zIndex = "-1";
-    anydoneIcon.style.visibility = "visible";
-    iframeTag.style.visibility = "hidden";
-    iframeTag.style.zIndex = "-1";
-    iframeTag.style.bottom = "30px";
-  });
 
   bodyTag.appendChild(anydoneIcon);
   bodyTag.appendChild(anydoneCloseIcon);
-  bodyTag.appendChild(mobileCloseIcon);
+
+  const hideChatPlugin = () => {
+    iframeTag.style.visibility = "hidden";
+    anydoneIcon.style.visibility = "hidden";
+    anydoneCloseIcon.style.visibility = "hidden";
+  };
+
+  const showChatPlugin = () => {
+    anydoneIcon.style.visibility = "visible";
+  }
 
   // let modalWrapperStyles = {
   //   display: "none" /* Hidden by default */,
@@ -374,3 +273,5 @@ const getCookie = (name) => {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
+
+var mobileSize = window.matchMedia("(max-width: 480px)");
