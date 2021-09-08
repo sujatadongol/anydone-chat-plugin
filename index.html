@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Electrolize&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Sora&display=swap"
       rel="stylesheet"
     />
     <link rel="shortcut icon" type="image/jpg" href="/assets/favicon.ico" />
@@ -87,15 +88,29 @@
         <!-- <div class="bot-item active">
           <div class="card-side chatBot-card-front-side">
             <div class="bot-item-text">
-              <p class="bot-name">Bot: Kshitij Testbot</p>
-              <ul>
-                <li><p>ApiKey = "fzGOopneue"</p></li>
-                <li><p>ApiSecret = "IWA4MVxXOWvk"</p></li>
-                <li><p>Environment = Development</p></li>
-                <li><p>Domain = www.google.com</p></li>
+              <div class="bot-item-header">
+                <img
+                  class="bot-item-botImg"
+                  src="./assets/robot-fill.svg"
+                  alt="bot"
+                />
+                <h2 class="bot-item-header-text">Kshitij Testbot</h2>
+              </div>
+              <ul class="bot-item-details">
                 <li>
-                  <span>Status = </span
-                  ><span class="active-status">Active</span>
+                  <span class="bot-item-details-key">ApiKey:</span> fzGOopneue
+                </li>
+                <li>
+                  <span class="bot-item-details-key">ApiSecret</span>
+                  IWA4MVxXOWvk
+                </li>
+                <li>
+                  <span class="bot-item-details-key">Environment:</span>
+                  Development
+                </li>
+                <li>
+                  <span class="bot-item-details-key">Domain:</span>
+                  www.google.com
                 </li>
               </ul>
             </div>
@@ -110,14 +125,14 @@
       </div>
     </main>
     <footer>
-      <div class="online-status-wrapper">
+      <!-- <div class="online-status-wrapper">
         <p class="online-status-text">Online</p>
         <img
           class="online-status-image"
           src="./assets/online.svg"
           alt="status"
         />
-      </div>
+      </div> -->
     </footer>
   </body>
   <script src="bot.js"></script>

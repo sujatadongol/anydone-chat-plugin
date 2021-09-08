@@ -72,20 +72,33 @@ const createBot = (
   botItem.innerHTML += `
   <div class="card-side chatBot-card-front-side">
   <div class="bot-item-text">
-      <p class="bot-name">Bot: ${botNameValue}</p>
-      <ul>
-        <li><p>ApiKey = ${apiKeyValue}</p></li>
-        <li><p>ApiSecret = ${apiSecretValue}</p></li>
-        <li><p>Environment = ${environment}</p></li>
-        <li><p>Domain = ${domain}</p></li>
-        <li>
-          <span>Status = </span><span class="${
-            isActive ? "active" : "inactive"
-          }-status">${isActive ? "Active" : "Inactive"}</span>
-        </li>
-      </ul>
+  <div class="bot-item-header">
+    <img
+      class="bot-item-botImg"
+      src="./assets/robot-fill.svg"
+      alt="bot"
+    />
+    <h2 class="bot-item-header-text">${botNameValue}</h2>
   </div>
-  </div>
+  <ul class="bot-item-details">
+    <li>
+      <span class="bot-item-details-key">ApiKey:</span> ${apiKeyValue}
+    </li>
+    <li>
+      <span class="bot-item-details-key">ApiSecret</span>
+      ${apiSecretValue}
+    </li>
+    <li>
+      <span class="bot-item-details-key">Environment:</span>
+      ${environment}
+    </li>
+    <li>
+      <span class="bot-item-details-key">Domain:</span>
+     ${domain}
+    </li>
+  </ul>
+</div>
+</>
  `;
 
   const chatBot_backSide = document.createElement("div");
