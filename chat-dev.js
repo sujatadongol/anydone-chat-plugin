@@ -1,5 +1,14 @@
-function init_anydone_chat(apiKey, apiSecret, devDomain) {
-  const chatPluginSrc = "https://chatplugin.anydone.com/";
+function init_anydone_chat(apiKey, apiSecret, devDomain, env) {
+  // for dev
+  // const chatPluginSrc =
+  //   env.toLowerCase() === "production"
+  //     ? "https://chatplugin.anydone.com/"
+  //     : "http://35.233.213.62:3000/";
+  // ! For local development only, should be changed while pushing
+  const chatPluginSrc =
+    env.toLowerCase() === "production"
+      ? "https://chatplugin.anydone.com/"
+      : "http://192.168.56.1:3000";
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
@@ -97,6 +106,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
         }
         case "CUSTOMER_DATA": {
           setLocalStorageItem("customerData", message);
+          createUserDataHeader(message);
           break;
         }
         case "PAGE_LOCATION_REQUEST": {
@@ -163,6 +173,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     const keyData = getLocalStorageItem("anydoneApiKeyData") || false;
     const anydoneSession = getLocalStorageItem("anydoneSession") || false;
     const dummyDomain = devDomain || false;
+    const environment = env || false;
     const apiKeyData = {
       apiKey,
       apiSecret,
@@ -173,6 +184,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
       keyData,
       anydoneSession,
       devDomain: dummyDomain,
+      environment,
     };
     post("API_CONFIG", apiKeyData);
   };
@@ -291,6 +303,53 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   bodyTag.appendChild(anydoneIcon);
   bodyTag.appendChild(anydoneCloseIcon);
   bodyTag.appendChild(mobileCloseIcon);
+
+  // let modalWrapperStyles = {
+  //   display: "none" /* Hidden by default */,
+  //   position: "fixed" /* Stay in place */,
+  //   "z-index": 1 /* Sit on top */,
+  //   "padding-top": "100px" /* Location of the box */,
+  //   left: 0,
+  //   top: 0,
+  //   width: "100%" /* Full width */,
+  //   height: "100%" /* Full height */,
+  //   overflow: "auto" /* Enable scroll if needed */,
+  //   "background-color": "rgb(0,0,0)" /* Fallback color */,
+  //   "background-color": "rgba(0,0,0,0.4)" /* Black w/ opacity */,
+  // };
+
+  // const callModal = document.createElement("div");
+  // Object.assign(callModal.style, modalWrapperStyles);
+  // bodyTag.appendChild(callModal);
+
+  // let modalContentStyles = {
+  //   "background-color": "#fefefe",
+  //   margin: "auto",
+  //   padding: "20px",
+  //   border: "1px solid #888",
+  //   width: "80%",
+  // };
+
+  // const modalContent = document.createElement("div");
+  // Object.assign(modalContent.style, modalContentStyles);
+  // modalContent.innerHTML = "<h1>This is the call Modal</h1>";
+  // callModal.appendChild(modalContent);
+
+  // const openModalButton = document.querySelector(".modalButton");
+  // openModalButton.onClick = () => {
+  //   callModal.style.display = "block";
+  //   console.log("button clicked");
+  // };
+  // openModalButton.addEventListener("click", () => {
+  //   callModal.style.display = "block";
+  // });
+
+  // callModal.addEventListener("click", (event) => {
+  //     console.log(event.target)
+  //   if (event.target === callModal) {
+  //     callModal.style.display = "none";
+  //   }
+  // });
 }
 
 const setLocalStorageItem = (key, data) => {
