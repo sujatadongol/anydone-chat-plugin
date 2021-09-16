@@ -41,12 +41,18 @@ header {
   align-items: center;
 }
 
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .user-details-wrapper {
   width: 370px;
   height: 90%;
   padding: 7px;
   border-radius: 8px;
-  border: 2px solid #376af5;
+  /* border: 2px solid #376af5; */
   /* background: #376af5; */
   display: flex;
   align-items: center;
