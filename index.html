@@ -15,16 +15,36 @@
     <title>Chat-Plugin Dev_Test</title>
   </head>
   <body>
-    <header>
-      <h1>chat plugin</h1>
-      <div class="switch-wrapper">
+    <!-- <img class="left-arrow-icon" src="./assets/left-arrow.svg" alt="left" />
+    <img class="right-arrow-icon" src="./assets/right-arrow.svg" alt="right" /> -->
+    <header class="header">
+      <div class="logo-wrapper">
+        <img
+          src="https://storage.googleapis.com/anydone_files_prod/AnydoneIcon.svg"
+          alt="anydone"
+          width="80"
+          height="80"
+        />
+        <h1>chat plugin</h1>
+      </div>
+
+      <!-- <div class="user-details-wrapper">
+        <img src="./assets/user-fill.svg" alt="user" width="50" height="50" />
+        <div class="user-data">
+          <div><span class="user-data-key">Name:</span> Daniel Thapa</div>
+          <div><span class="user-data-key">Email:</span> dtdaniel27@gmail.com</div>
+          <div><span class="user-data-key">Mapping id:</span> cd91b4522b624d0dbd585a8d3ab8b11c</div>
+          <div><span  class="user-data-key">Customer id:</span> 6ee16b75061543f1b7375a7f0c02f14e</div>
+        </div>
+      </div> -->
+      <!-- <div class="switch-wrapper">
         <p>Dev</p>
         <label class="switch">
           <input type="checkbox" class="header-switch" />
           <span class="slider"></span>
         </label>
         <p>Prod</p>
-      </div>
+      </div> -->
     </header>
     <main>
       <div class="bot-cred-input">
@@ -81,6 +101,9 @@
         <button class="add-bot-button" type="button" onclick="addBot()">
           Add
         </button>
+        <!-- <button class="new-user-button" type="button" onclick="removeUser()">
+          New User
+        </button> -->
       </div>
 
       <!-- <button type="button" class="modalButton">Open callModal</button> -->
@@ -124,19 +147,9 @@
         </div> -->
       </div>
     </main>
-    <footer>
-      <!-- <div class="online-status-wrapper">
-        <p class="online-status-text">Online</p>
-        <img
-          class="online-status-image"
-          src="./assets/online.svg"
-          alt="status"
-        />
-      </div> -->
-    </footer>
   </body>
   <script src="bot.js"></script>
-  <script src="chat.js"></script>
+  <script src="chat-dev.js"></script>
   <script>
     if (localStorage.getItem("botInfo-List") !== null) {
       createStoredBotList();
@@ -149,12 +162,9 @@
       createStoredBotList();
     }
 
-    if (getLocalStorageItem("environment") !== null) {
-      const env = getLocalStorageItem("environment");
-      headerSwitch.checked = env === "Production" ? true : false;
-    } else {
-      setLocalStorageItem("environment", "Development");
-      headerSwitch.checked = false;
+    if (localStorage.getItem("customerData") !== null) {
+      const customerData = JSON.parse(localStorage.getItem("customerData"));
+      createUserDataHeader(customerData);
     }
 
     if (localStorage.getItem("currentBot") !== null) {
@@ -162,24 +172,8 @@
       const apiKeyValue = currentBotInfo.apiKey;
       const apiSecretValue = currentBotInfo.apiSecret;
       const devDomain = currentBotInfo.domain;
-      init_anydone_chat(apiKeyValue, apiSecretValue, devDomain);
+      const env = currentBotInfo.env;
+      init_anydone_chat(apiKeyValue, apiSecretValue, devDomain, env);
     }
-
-    //  Kshitij testbot
-    // const apiKey = "fzGOopneue";
-    // const apiSecret = "IWA4MVxXOWvk";
-    //  newsService testbot
-    // const apiKey = "4def2805bed04575a3d8a3f50c70b395";
-    // const apiSecret = "IYs3LiSgOZkO";
-    //  nepal Police bot
-    // const apiKey = "dev_chat_bot_test";
-    // const apiKey = "6d7e7aac60804b9fbfa386db2f41a25b";
-    // const apiSecret = "EHZHc83AbELe";
-    // dev test
-    // const apiKey = '_new_testing';
-    // const apiSecret = 'rgmwHZR95pzj';
-    // const apiKeyValue = "education_api_key";
-    // const apiSecretValue = "idub0oI0AFMg";
-    // init_anydone_chat(apiKeyValue, apiSecretValue);
   </script>
 </html>

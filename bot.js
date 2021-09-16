@@ -4,15 +4,19 @@ const apiKey = document.querySelector(".api-key");
 const apiSecret = document.querySelector(".api-secret");
 const environment = document.querySelector(".environment");
 const domain = document.querySelector(".domain");
-const headerSwitch = document.querySelector(".header-switch");
+const header = document.querySelector(".header");
+// const headerSwitch = document.querySelector(".header-switch");
 const onlineStatus = document.querySelector(".online-status-text");
 const onlineStatusImage = document.querySelector(".online-status-image");
-// const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
-const chatBotPluginSrc = "http://35.233.213.62:3000/"; // For Dev
+const leftArrow = document.querySelector(".left-arrow-icon");
+const rightArrow = document.querySelector(".right-arrow-icon");
+const botAddDiv = document.querySelector(".bot-cred-input");
+const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+// const chatBotPluginSrc = "http://35.233.213.62:3000/"; // For Dev
 
-headerSwitch.addEventListener("change", () => {
-  toggleHeaderSwitch();
-});
+// headerSwitch.addEventListener("change", () => {
+//   toggleHeaderSwitch();
+// });
 /**
  *  Creates bot list from botInfo stored in localStorage
  */
@@ -41,7 +45,8 @@ const createStoredBotList = () => {
       apiSecretValue,
       environment,
       domain,
-      isActive
+      isActive,
+      environment
     );
 
     botList.append(botItem);
@@ -62,7 +67,8 @@ const createBot = (
   apiSecretValue,
   environment,
   domain,
-  isActive
+  isActive,
+  env
 ) => {
   const botItem = document.createElement("div"); //  Bot Item
   botItem.classList.add("bot-item");
@@ -85,7 +91,7 @@ const createBot = (
       <span class="bot-item-details-key">ApiKey:</span> ${apiKeyValue}
     </li>
     <li>
-      <span class="bot-item-details-key">ApiSecret</span>
+      <span class="bot-item-details-key">ApiSecret:</span>
       ${apiSecretValue}
     </li>
     <li>
@@ -120,7 +126,7 @@ const createBot = (
   initiateButton.classList.add("initiate-button");
   initiateButton.innerText = "Initiate";
   initiateButton.addEventListener("click", () => {
-    initiateChatBot(botNameValue, apiKeyValue, apiSecretValue, domain);
+    initiateChatBot(botNameValue, apiKeyValue, apiSecretValue, domain, env);
   });
   buttonWrapper.append(initiateButton);
   chatBot_backSide.append(buttonWrapper);
@@ -150,6 +156,19 @@ const addBot = () => {
   } else {
     alert("input fields cannot be empty");
   }
+};
+const removeUser = () => {
+  const keysToRemove = [
+    "customerData",
+    "mappingId",
+    "anydoneSession",
+    "anydoneApiKeyData",
+  ];
+
+  for (key of keysToRemove) {
+    localStorage.removeItem(key);
+  }
+  window.location.reload();
 };
 /**
  * Create a botItem from the data taken from the input
@@ -195,7 +214,7 @@ const createNewBotItem = () => {
  * @param  {string} apiKey
  * @param  {string} apiSecret
  */
-const initiateChatBot = (botName, apiKey, apiSecret, domain) => {
+const initiateChatBot = (botName, apiKey, apiSecret, domain, env) => {
   console.log("chat bot initialized");
 
   const currentBotInfo = getLocalStorageItem("currentBot");
@@ -206,22 +225,22 @@ const initiateChatBot = (botName, apiKey, apiSecret, domain) => {
       if (currentIframe !== null) {
         removeCurrentIframe();
       }
-      init_anydone_chat(apiKey, apiSecret, domain);
+      init_anydone_chat(apiKey, apiSecret, domain, env);
       window.location.reload();
     } else {
       removeCurrentIframe();
       removeBotKeyDataFromLocalStorage();
-      saveCurrentBotData(botName, apiKey, apiSecret, domain);
+      saveCurrentBotData(botName, apiKey, apiSecret, domain, env);
 
-      init_anydone_chat(apiKey, apiSecret, domain);
+      init_anydone_chat(apiKey, apiSecret, domain, env);
       window.location.reload();
     }
   } else {
     removeCurrentIframe();
-    saveCurrentBotData(botName, apiKey, apiSecret, domain);
+    saveCurrentBotData(botName, apiKey, apiSecret, domain, env);
     removeBotKeyDataFromLocalStorage();
 
-    init_anydone_chat(apiKey, apiSecret, domain);
+    init_anydone_chat(apiKey, apiSecret, domain, env);
     window.location.reload();
   }
 };
@@ -232,12 +251,13 @@ const initiateChatBot = (botName, apiKey, apiSecret, domain) => {
  * @param  {string} apiKey
  * @param  {string} apiSecret
  */
-const saveCurrentBotData = (botName, apiKey, apiSecret, domain) => {
+const saveCurrentBotData = (botName, apiKey, apiSecret, domain, env) => {
   const botInfo = {
-    botName: botName,
-    apiKey: apiKey,
-    apiSecret: apiSecret,
-    domain: domain,
+    botName,
+    apiKey,
+    apiSecret,
+    domain,
+    env,
   };
   localStorage.setItem("currentBot", JSON.stringify(botInfo));
 };
@@ -326,17 +346,17 @@ const removeCurrentIframe = () => {
  * Toggle between prod and dev switch and save data to LocalStorage
  * also switches the env info of the plugin using postmessage
  */
-const toggleHeaderSwitch = () => {
-  if (headerSwitch.checked) {
-    console.log("header switch checked");
-    setLocalStorageItem("environment", "Production");
-    post("Switch-Environment", "Production");
-  } else {
-    console.log("header switch unchecked");
-    setLocalStorageItem("environment", "Development");
-    post("Switch-Environment", "Development");
-  }
-};
+// const toggleHeaderSwitch = () => {
+//   if (headerSwitch.checked) {
+//     console.log("header switch checked");
+//     setLocalStorageItem("environment", "Production");
+//     // post("Switch-Environment", "Production");
+//   } else {
+//     console.log("header switch unchecked");
+//     setLocalStorageItem("environment", "Development");
+//     // post("Switch-Environment", "Development");
+//   }
+// };
 /**
  * Creates a data object from the parameters given and postsMessage to iFrame source
  *
@@ -390,6 +410,39 @@ const setOnlineStatus = (online) => {
     onlineStatusImage.setAttribute("src", "./assets/offline.svg");
   }
 };
+
+const createUserDataHeader = (customerData) => {
+  const name = customerData.fullName;
+  const email = customerData.email;
+  const customerId = customerData.customerId;
+  const mappingId = customerData.session[0].mappingId;
+  const userDetailsWrapper = document.createElement("div");
+  userDetailsWrapper.classList.add("user-details-wrapper");
+  const userDetails = `
+  <img src="./assets/user-fill.svg" alt="user" width="50" height="50" />
+  <div class="user-data">
+  <div><span class="user-data-key">Name:</span> ${name}</div>
+          <div><span class="user-data-key">Email:</span>  ${email}</div>
+          <div><span class="user-data-key">Mapping id:</span> ${customerId}</div>
+          <div><span class="user-data-key">Customer id:</span> ${mappingId}</div>
+  
+  </div>
+  `;
+  userDetailsWrapper.innerHTML = userDetails;
+  header.append(userDetailsWrapper);
+  addRemoveUserButton();
+};
+
+const addRemoveUserButton = () => {
+  const removeUserButton = document.createElement("button");
+  removeUserButton.innerText = "New User";
+  removeUserButton.classList.add("new-user-button");
+  removeUserButton.type = "button";
+  removeUserButton.addEventListener("click", () => {
+    removeUser();
+  });
+  botAddDiv.append(removeUserButton);
+};
 /**
  * Adds botItems to the botList from the given list
  */
@@ -421,13 +474,20 @@ const addInitialBotList = () => {
       apiSecret: "rgmwHZR95pzj",
       botName: "Kshitij Dev TestBot",
       environment: "Development",
-      domain: "http://google.com",
+      domain: "35.233.213.62:3000",
     },
     {
       apiKey: "education_api_key",
       apiSecret: "idub0oI0AFMg",
       botName: "Education Bot",
       environment: "Development",
+      domain: "35.233.213.62:3000",
+    },
+    {
+      botName: "Automated Replies Test",
+      apiKey: "Automated replies",
+      apiSecret: "rqbABYdjKKXW",
+      environment: "development",
       domain: "http://google.com",
     },
   ];
