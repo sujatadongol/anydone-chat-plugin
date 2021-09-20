@@ -1,14 +1,14 @@
 function init_anydone_chat(apiKey, apiSecret, devDomain, env) {
   // for dev
-  // const chatPluginSrc =
-  //   env.toLowerCase() === "production"
-  //     ? "https://chatplugin.anydone.com/"
-  //     : "http://35.233.213.62:3000/";
-  // ! For local development only, should be changed while pushing
   const chatPluginSrc =
     env.toLowerCase() === "production"
       ? "https://chatplugin.anydone.com/"
-      : "http://192.168.56.1:3000";
+      : "http://35.233.213.62:3000/";
+  // ! For local development only, should be changed while pushing
+  // const chatPluginSrc =
+  //   env.toLowerCase() === "production"
+  //     ? "https://chatplugin.anydone.com/"
+  //     : "http://192.168.56.1:3000";
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
