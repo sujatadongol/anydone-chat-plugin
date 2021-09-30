@@ -218,7 +218,8 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   anydoneCloseIcon.style.bottom = "30px";
 
   mobileCloseIcon.id = "mobile-close-id";
-  mobileCloseIcon.src = "close_mark.svg";
+  mobileCloseIcon.src =
+    "https://storage.googleapis.com/anydone_files/close_mark.svg";
   mobileCloseIcon.style.visibility = "hidden";
   mobileCloseIcon.style.width = "16px";
   mobileCloseIcon.style.height = "16px";
