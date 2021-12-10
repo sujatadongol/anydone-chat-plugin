@@ -242,7 +242,12 @@ function init_anydone_chat(apiKey, apiSecret, devDomain, env) {
   mobileCloseIcon.style.top = "17px";
   mobileCloseIcon.style.right = "20px";
 
+  let clickCount = 0;
   anydoneIcon.addEventListener("click", () => {
+    if (clickCount === 0) {
+      post("INITIAL_CHATPLUGIN_LOAD", "");
+      clickCount += 1;
+    }
     anydoneIcon.style.visibility = "hidden";
     anydoneCloseIcon.style.animation = "rotation 2s linear";
     iframeTag.style.visibility = "visible";
