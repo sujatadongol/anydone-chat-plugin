@@ -17,6 +17,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   //iframe content
   const iframeTag = document.createElement("iframe");
   iframeTag.id = "anydone-chat-id";
+  iframeTag.allowFullscreen = true;
   iframeTag.src = chatPluginSrc;
 
   //floating icon to toggle chat screen
@@ -193,7 +194,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
 
   anydoneIcon.id = "anydone-logo-id";
   anydoneIcon.src =
-    "https://storage.googleapis.com/anydone_files_prod/AnydoneIcon.svg";
+  "https://storage.googleapis.com/anydone_files_prod/anydone-logo.svg";
   anydoneIcon.style.visibility = "hidden";
   anydoneIcon.style.width = "60px";
   anydoneIcon.style.height = "60px";

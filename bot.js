@@ -17,6 +17,7 @@ const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development 
 // headerSwitch.addEventListener("change", () => {
 //   toggleHeaderSwitch();
 // });
+
 /**
  *  Creates bot list from botInfo stored in localStorage
  */
@@ -157,6 +158,7 @@ const addBot = () => {
     alert("input fields cannot be empty");
   }
 };
+
 const removeUser = () => {
   const keysToRemove = [
     "customerData",
