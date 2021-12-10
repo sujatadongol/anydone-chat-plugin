@@ -194,7 +194,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
 
   anydoneIcon.id = "anydone-logo-id";
   anydoneIcon.src =
-  "https://storage.googleapis.com/anydone_files_prod/anydone-logo.svg";
+    "https://storage.googleapis.com/anydone_files_prod/anydone-logo.svg";
   anydoneIcon.style.visibility = "hidden";
   anydoneIcon.style.width = "60px";
   anydoneIcon.style.height = "60px";
@@ -230,7 +230,12 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   mobileCloseIcon.style.top = "17px";
   mobileCloseIcon.style.right = "20px";
 
+  let clickCount = 0;
   anydoneIcon.addEventListener("click", () => {
+    if (clickCount === 0) {
+      post("INITIAL_CHATPLUGIN_LOAD", "");
+      clickCount += 1;
+    }
     anydoneIcon.style.visibility = "hidden";
     anydoneCloseIcon.style.animation = "rotation 2s linear";
     iframeTag.style.visibility = "visible";
