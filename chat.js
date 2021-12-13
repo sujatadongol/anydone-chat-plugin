@@ -17,7 +17,6 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   //iframe content
   const iframeTag = document.createElement("iframe");
   iframeTag.id = "anydone-chat-id";
-  iframeTag.allowFullscreen = true;
   iframeTag.src = chatPluginSrc;
 
   //floating icon to toggle chat screen
@@ -30,15 +29,15 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   const resizeForMobile = (mobileSize) => {
     if (mobileSize.matches) {
       anydoneCloseIcon.style.visibility = "hidden";
-      iframeTag.style.visibility = "hidden";
+      iframeTag.hidden = true;
       anydoneIcon.style.visibility = "visible";
       iframeTag.style.bottom = "0px";
       iframeTag.style.position = "fixed";
       iframeTag.style.zIndex = "9999";
       iframeTag.style.border = "none";
       iframeTag.style.right = "0px";
-      iframeTag.style.width = "100vw";
-      iframeTag.style.height = "100vh";
+      iframeTag.style.width = "100%";
+      iframeTag.style.height = "100%";
       iframeTag.crossOrigin = "";
       iframeTag.style.borderRadius = "0px";
       iframeTag.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.25)";
@@ -60,7 +59,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
       iframeTag.style.boxShadow = "0px 2px 4px rgba(0, 0, 0, 0.25)";
       anydoneIcon.style.right = "30px";
       anydoneIcon.style.bottom = "30px";
-      if (iframeTag.style.visibility === "visible") {
+      if (iframeTag.hidden === false) {
         anydoneCloseIcon.style.visibility = "visible";
         anydoneCloseIcon.style.zIndex = "8888";
       }
@@ -68,6 +67,20 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   };
 
   mobileSize.addListener(resizeForMobile);
+
+  // Helper function for sending a message to the chatPlugin
+  const post = (action, value) => {
+    let data = {
+      type: action,
+    };
+
+    if (value) {
+      data.message = value;
+    }
+
+    let message = JSON.stringify(data);
+    iframeTag.contentWindow.postMessage(message, chatPluginSrc);
+  };
 
   iframeTag.onload = () => {
     resizeForMobile(mobileSize);
@@ -113,19 +126,6 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
       return true;
     };
     window.addEventListener("message", onMessageReceivedFromChatPlugin);
-    // Helper function for sending a message to the chatPlugin
-    const post = (action, value) => {
-      let data = {
-        type: action,
-      };
-
-      if (value) {
-        data.message = value;
-      }
-
-      let message = JSON.stringify(data);
-      iframeTag.contentWindow.postMessage(message, chatPluginSrc);
-    };
 
     const page = {
       pageLocation: window.location.href,
@@ -178,7 +178,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     post("API_CONFIG", apiKeyData);
   };
 
-  iframeTag.style.visibility = "hidden";
+  iframeTag.hidden = true;
   iframeTag.style.bottom = "100px";
   iframeTag.style.position = "fixed";
   iframeTag.style.zIndex = "9999";
@@ -238,7 +238,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     }
     anydoneIcon.style.visibility = "hidden";
     anydoneCloseIcon.style.animation = "rotation 2s linear";
-    iframeTag.style.visibility = "visible";
+    iframeTag.hidden = false;
     if (mobileSize.matches) {
       anydoneCloseIcon.style.visibility = "hidden";
       mobileCloseIcon.style.visibility = "visible";
@@ -281,7 +281,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   anydoneCloseIcon.addEventListener("click", () => {
     anydoneIcon.style.visibility = "visible";
     anydoneCloseIcon.style.visibility = "hidden";
-    iframeTag.style.visibility = "hidden";
+    iframeTag.hidden = true;
     iframeTag.style.zIndex = "-1";
     iframeTag.style.bottom = "30px";
   });
@@ -290,7 +290,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     anydoneIcon.style.zIndex = "8888";
     anydoneCloseIcon.style.zIndex = "-1";
     anydoneIcon.style.visibility = "visible";
-    iframeTag.style.visibility = "hidden";
+    iframeTag.hidden = true;
     iframeTag.style.zIndex = "-1";
     iframeTag.style.bottom = "30px";
   });
