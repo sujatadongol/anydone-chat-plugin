@@ -14,6 +14,8 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
   bodyTag.appendChild(apiKeyEl);
   bodyTag.appendChild(apiSecEl);
 
+  let isChatBotReady = false;
+
   //iframe content
   const iframeTag = document.createElement("iframe");
   iframeTag.id = "anydone-chat-id";
@@ -142,6 +144,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
     });
 
     const showChatPlugin = () => {
+      isChatBotReady = true;
       anydoneIcon.style.visibility = "visible";
     };
 
@@ -232,6 +235,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain) {
 
   let clickCount = 0;
   anydoneIcon.addEventListener("click", () => {
+    if (!isChatBotReady) return;
     if (clickCount === 0) {
       post("INITIAL_CHATPLUGIN_LOAD", "");
       clickCount += 1;
