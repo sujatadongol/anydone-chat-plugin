@@ -14,10 +14,6 @@ const botAddDiv = document.querySelector(".bot-cred-input");
 const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
 // const chatBotPluginSrc = "http://35.233.213.62:3000/"; // For Dev
 
-// headerSwitch.addEventListener("change", () => {
-//   toggleHeaderSwitch();
-// });
-
 /**
  *  Creates bot list from botInfo stored in localStorage
  */
@@ -453,16 +449,16 @@ const addInitialBotList = () => {
     // {
     //   apiKey: "dev_chat_bot_test",
     //   apiSecret: "EHZHc83AbELe",
-    //   botName: "Nepal Police Bot",
+    //   botName: "NP Bot",
     //   environment: "Production",
-    //   domain: "http://nptest.nepalpolice.gov.np/",
+    //   domain: "https://nepalpolice.gov.np/",
     // },
     {
       apiKey: "anydone_bot",
       apiSecret: "wwohzI76SZdX",
       botName: "Treeleaf Bot",
       environment: "Production",
-      domain: "http://treeleaf.ai",
+      domain: "https://treeleaf.ai",
     },
     {
       apiKey: "anydone_chat_plugin",
@@ -470,6 +466,13 @@ const addInitialBotList = () => {
       botName: "Anydone Bot",
       environment: "Production",
       domain: "https://anydone.com",
+    },
+    {
+      apiKey: "New",
+      apiSecret: "eihR3qtSo7Yb",
+      botName: "Prod Test Bot",
+      environment: "Production",
+      domain: "https://treeleaf.ai",
     },
     {
       apiKey: "_new_testing",

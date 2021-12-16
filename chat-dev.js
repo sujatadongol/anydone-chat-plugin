@@ -6,13 +6,15 @@ function init_anydone_chat(apiKey, apiSecret, devDomain, env) {
       : "http://35.233.213.62:3000/";
   // ! For local development only, should be changed while pushing
   // const chatPluginSrc =
-  //   env.toLowerCase() === "production"
-  //     ? "https://chatplugin.anydone.com/"
-  //     : "http://192.168.56.1:3000";
+  // env.toLowerCase() === "production"
+  //   ? "https://chatplugin.anydone.com/"
+  //   : "http://192.168.56.1:3000";
   const apiKeyEl = document.createElement("input");
   apiKeyEl.hidden = true;
   apiKeyEl.id = "anydone-chat-plugin-api-key";
   apiKeyEl.value = apiKey;
+
+  let isChatBotReady = false;
 
   const apiSecEl = document.createElement("input");
   apiSecEl.hidden = true;
@@ -165,6 +167,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain, env) {
     });
 
     const showChatPlugin = () => {
+      isChatBotReady = true;
       anydoneIcon.style.visibility = "visible";
     };
 
@@ -257,6 +260,7 @@ function init_anydone_chat(apiKey, apiSecret, devDomain, env) {
 
   let clickCount = 0;
   anydoneIcon.addEventListener("click", () => {
+    if (!isChatBotReady) return;
     if (clickCount === 0) {
       post("INITIAL_CHATPLUGIN_LOAD", "");
       clickCount += 1;
