@@ -11,8 +11,8 @@ const onlineStatusImage = document.querySelector(".online-status-image");
 const leftArrow = document.querySelector(".left-arrow-icon");
 const rightArrow = document.querySelector(".right-arrow-icon");
 const botAddDiv = document.querySelector(".bot-cred-input");
-const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
-// const chatBotPluginSrc = "http://35.233.213.62:3000/"; // For Dev
+// const chatBotPluginSrc = "http://192.168.56.1:3000"; // ! For local development only, should be changed while pushing
+const chatBotPluginSrc = "http://35.233.213.62:3000/"; // For Dev
 
 /**
  *  Creates bot list from botInfo stored in localStorage
